@@ -1,4 +1,4 @@
-struct Brackets {
+pub struct Brackets {
     n_pairs: Box<dyn Iterator<Item = isize>>,
 }
 
@@ -28,14 +28,14 @@ impl Iterator for Brackets {
 }
 
 impl Brackets {
-    fn new(level: u32) -> Brackets {
+    pub fn new(level: u32) -> Brackets {
         let start: isize = isize::pow(2, level - 1) - 1;
         let end: isize = 2 * (1 - isize::pow(4, level - 1)) / (1 - 4);
         Brackets {
             n_pairs: Box::new(start..=end),
         }
     }
-    fn valid_pairs(number: isize) -> Option<String> {
+    fn valid_pairs(mut number: isize) -> Option<String> {
         let mut count: usize = 0;
         let mut pairs: String = String::from("(");
         while number != 0 {
@@ -46,7 +46,7 @@ impl Brackets {
                 count -= 1;
                 pairs.push(')');
             }
-            let _ = number >> 1;
+            number >>= 1;
         }
         if count == 0 {
             pairs.push(')');
