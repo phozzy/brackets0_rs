@@ -9,7 +9,24 @@ impl Iterator for Brackets {
     type Item = String;
 
     fn next(&mut self) -> Option<Self::Item> {
-        todo!()
+        loop {
+            match self.n_pairs.next() {
+                Some(number) => {
+                    match Brackets::valid_pairs(number) {
+                        Some(br_string) => {
+                            self.pairs_list = Some(br_string);
+                            break;
+                        },
+                        None => continue,
+                    }
+                },
+                None => {
+                    self.pairs_list = None;
+                    break;
+                },
+            }
+        }
+        self.pairs_list
     }
 }
 
